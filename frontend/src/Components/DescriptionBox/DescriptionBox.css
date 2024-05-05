@@ -3,12 +3,12 @@
     
 }
 
-.descriptonbox-navigator{
+.descriptionbox-navigator{
     display: flex;
 
 }
 
-.descriptonbox-nav-box{
+.descriptionbox-nav-box{
     display: flex;
     align-items: center;
     justify-content: center;

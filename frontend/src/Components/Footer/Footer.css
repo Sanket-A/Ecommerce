@@ -14,7 +14,7 @@
 
 }
 
-footer-logo p{
+.footer-logo p{
     color: #383838;
     font-size: 46px;
     font-weight: 700;
@@ -55,9 +55,45 @@ footer-logo p{
 }
 
 .footer-copyright hr{
-    width: 80%;
+width: 80%;
 border: none;
 border-radius: 10px;
 height: 3px;
 background: #c7c7c7;
+}
+
+@media(max-width:800px){
+    .footer{
+        gap: 20px;
+
+    } 
+
+    .footer-logo{
+        gap: 10px;
+        align-items: end;
+
+    }
+
+    .footer-logo img{
+        width: 40px;
+
+    }
+
+    .footer-logo p{
+        font-size: 25px;
+
+    }
+    .footer-links{
+        font-size: 14px;
+        gap: 10px;
+    }
+
+    .footer-social-icon img{
+        width: 22px;
+
+    }
+    .footer-copyright{
+        font-size: 13px;
+
+    }
 }

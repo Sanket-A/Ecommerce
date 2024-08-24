@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 const multer = require("multer");
 const path = require("path");
 const cors = require("cors");
+const { log } = require("console");
 
 app.use(express.json());
 app.use(cors());
@@ -147,6 +148,9 @@ const Users = mongoose.model('Users', {
     password:{
         type: String
     },
+    cartData:{
+        type:Object
+    },
     date:{
         type:Date,
         default:Date.now,
@@ -170,7 +174,7 @@ app.post('/signup',async(req,res)=>{
   const user = new Users({
     name:req.body.username,
     email:req.body.email,
-    password:req.body.pasword,
+    password:req.body.password,
     cartData:cart,
   })
   await user.save(); 
@@ -184,6 +188,107 @@ app.post('/signup',async(req,res)=>{
   const token = jwt.sign(data,'secret_ecom');
   res.json({success:true,token})
 })
+
+//endpoint fro user
+
+app.post('/login',async (req,res)=>{
+    let user = await Users.findOne({email:req.body.email});
+    if (user){
+        const passCompare = req.body.password === user.password;
+        
+        if(passCompare){
+            const data = {
+                user: {
+                    id:user.id
+                }
+            }
+            const token = jwt.sign(data,'secret_ecom');
+            res.json({success:true,token});
+        }
+        else{
+            res.json({success:false,errors:'Wrong Password'})
+        }
+
+    }
+    else{
+        res.json({success:false,errors:"Wrong Email Id"
+        })
+    }
+
+})
+
+//creating endpoint for newcollection data
+
+app.get("/newcollections", async(req,res)=>{
+    let products = await Product.find({})
+    let newcollection = products.slice(1).slice(-8);
+    console.log("NewCollection Fetched")
+    res.send(newcollection);
+
+})
+
+//Popular in women
+app.get('/popularinwomen', async (req, res) => {
+    console.log("Route /popularinwomen accessed"); // Log when the route is accessed
+    try {
+        let products = await Product.find({ category: "women" });
+        console.log("Products fetched:", products); // Log the fetched products
+        let popularInWomen = products.slice(0, 4);
+        res.send(popularInWomen);
+    } catch (error) {
+        console.error("Error fetching popular products:", error); // Log any error
+        res.status(500).send("Internal Server Error");
+    }
+});
+//Creating middleware to fetch user
+const fetchUser = async (req,res,next)=>{
+
+    const token = req.header("auth-token");
+    if(!token){
+        res.status(401).send({errors: "Please authenticate using valid token"})
+    }
+    else{
+        try {
+            const data = jwt.verify(token,'secret_ecom');
+            req.user = data.user;
+            next();
+            
+        } catch (error) {
+            res.status(401).send({errors:"please authenticate using valid token"})
+        }
+    }
+
+}
+//Endpoint for adding in cartdata
+app.post('/addtocart',fetchUser,async (req,res)=>{
+    console.log("Added", req.body.itemId)
+    let userData = await Users.findOne({_id:req.user.id})
+    userData.cartData[req.body.itemId] += 1;
+    await Users.findOneAndUpdate({_id:req.user.id},{cartData:userData.cartData})
+    res.send("Added")
+    }) 
+
+    ///creating endpoint to remove product form cart data
+
+
+    app.post('/removefromcart',fetchUser,async (req,res)=>{
+        console.log("removed", req.body.itemId)
+        let userData = await Users.findOne({_id:req.user.id})
+        if( userData.cartData[req.body.itemId]>0)
+        userData.cartData[req.body.itemId] -= 1;
+        await Users.findOneAndUpdate({_id:req.user.id},{cartData:userData.cartData})
+        res.send("Removed")
+    })
+
+    //creating endpoint to get cartdata
+    app.post("/getcart",fetchUser,async (req,res)=>{
+       
+        let userData = await Users.findOne({_id:req.user.id});
+        res.json(userData.cartData);
+
+
+    })
+
 app.listen(port,(error)=>{
     if (!error) {
         console.log("Server Running on Port "+port) 

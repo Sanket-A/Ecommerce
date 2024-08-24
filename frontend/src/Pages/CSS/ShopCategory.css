@@ -23,7 +23,77 @@
     font-weight: 600px;
 
 }
- 
+ /* SortByButton.css */
+
+.sortby-button-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .sortby-button {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: normal;
+    font-size: 14px;
+    transition: background-color 0.3s, border-color 0.3s;
+  }
+  
+  .sortby-button:hover {
+    background-color: #f5f5f5;
+    border-color: #bbb;
+  }
+  
+  .dropdown-icon {
+    margin-left: 6px;
+    transition: transform 0.3s;
+  }
+  
+  .dropdown-icon.open {
+    transform: rotate(180deg);
+  }
+  
+  .sortby-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    overflow: hidden;
+    z-index: 1000;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s, visibility 0.3s;
+  }
+  
+  .sortby-dropdown.hidden {
+    opacity: 0;
+    visibility: hidden;
+  }
+  
+  .sortby-dropdown-option {
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+  }
+  
+  .sortby-dropdown-option:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .sortby-dropdown-option.selected {
+    background-color: #eee;
+    font-weight: normal;
+  }
+  
 .shopcategory-products{  
     margin:20px 170px ;
     display: grid;

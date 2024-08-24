@@ -12,11 +12,10 @@ const Hero = ({ scrollToRef }) => {
         <h2>NEW ARRIVALS ONLY</h2>
         <div>
           <div className="hero-hand-icon">
-            <p> New</p>
-            <img src={hand_icon} alt="" />
+          
           </div>
-          <p>Collections</p>
-          <p>for Everyone</p>
+          <p>Happy</p>
+          <p>Shopping!</p>
         </div>
         <div className="hero-latest-btn" onClick={() => scrollToRef.current.scrollIntoView({ behavior: 'smooth' })}>
           <div>Latest Collection</div>

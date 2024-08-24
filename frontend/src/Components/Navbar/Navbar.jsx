@@ -16,44 +16,48 @@ const Navbar = () => {
         e.target.classList.toggle('open');
     }
 
+    const isLoggedIn = !!localStorage.getItem('auth-token');
+
     return (
         <div className='navbar'>
             <div className='nav-logo'>
-                <img src={logo} alt="" />
+                <img src={logo} alt="Logo" />
                 <p>DIVA ATTIRE</p>
             </div>
-            <img className='nav-dropdown' onClick={dropdown_toggle} src={nav_dropdown} alt='' />
+            <img className='nav-dropdown' onClick={dropdown_toggle} src={nav_dropdown} alt='Dropdown' />
             <ul ref={menuRef} className='nav-menu'>
                 <li onClick={() => { setMenu("shop") }}>
                     <Link to="/" style={{ textDecoration: 'none' }}>Shop</Link>
-                    {menu === "shop" ? <hr /> : <></>}
+                    {menu === "shop" ? <hr /> : null}
                 </li>
                 <li onClick={() => { setMenu("mens") }}>
                     <Link style={{ textDecoration: 'none' }} to="/mens">Men</Link>
-                    {menu === "mens" ? <hr /> : <></>}
+                    {menu === "mens" ? <hr /> : null}
                 </li>
                 <li onClick={() => { setMenu("womens") }}>
                     <Link style={{ textDecoration: 'none' }} to="/womens">Women</Link>
-                    {menu === "womens" ? <hr /> : <></>}
+                    {menu === "womens" ? <hr /> : null}
                 </li>
                 <li onClick={() => { setMenu("kids") }}>
                     <Link style={{ textDecoration: 'none' }} to="/kids">Kids</Link>
-                    {menu === "kids" ? <hr /> : <></>}
+                    {menu === "kids" ? <hr /> : null}
                 </li>
-                
             </ul>
             <div className='nav-login-cart'>
-                {localStorage.getItem('auth-token') ?
-                    <button onClick={() => {
-                        localStorage.removeItem("auth-token");
-                        window.location.replace('/')
-                    }}>Logout</button> :
+                {isLoggedIn ? (
+                    <>
+                        <button onClick={() => {
+                            localStorage.removeItem("auth-token");
+                            window.location.replace('/');
+                        }}>Logout</button>
+                        <Link to="/cart">
+                            <img src={cart_icon} alt="Cart" />
+                        </Link>
+                        <div className='nav-cart-count'>{getTotalCartItems()}</div>
+                    </>
+                ) : (
                     <Link to="/login"><button>Login</button></Link>
-                }
-                <Link to="/cart">
-                    <img src={cart_icon} alt=" " />
-                </Link>
-                <div className='nav-cart-count'>{getTotalCartItems()}</div>
+                )}
             </div>
         </div>
     )

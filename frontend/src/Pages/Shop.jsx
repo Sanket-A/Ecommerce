@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import "./CSS/Shop.css"
 import Hero from '../Components/Hero/Hero';
 import Popular from '../Components/Popular/Popular';
 import Offers from '../Components/Offers/Offers';
@@ -10,11 +11,13 @@ const Shop = () => {
 
   return (
     <>
+    <div className='main'>
       <Hero scrollToRef={newCollectionsRef} />
       <Popular />
       <Offers />
       <NewCollections ref={newCollectionsRef} />
       <NewsLetter />
+      </div>
     </>
   );
 };

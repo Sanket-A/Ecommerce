@@ -114,9 +114,76 @@ app.post('/addproduct',async (req,res)=>{
     res.json({
         success:true,
         name:req.body.name,
-    })
+    }) 
 })
 
+app.post("/removeproduct",async (req,res)=>{
+await Product.findOneAndDelete({id:req.body.id});
+console.log("Removed");
+res.json({
+    sucess: true,
+    name: req.body.name
+})
+})
+ //creating api for getting all products
+
+ app.get("/allproducts", async (req,res)=>{
+    let products = await Product.find({});
+        console.log("All Products Fetchded");
+        res.send(products);
+    
+ })
+ //schema creating for user model
+
+const Users = mongoose.model('Users', {
+    name:{
+        type: String, 
+    },
+    email:{
+        type:String,
+        unique:true,
+
+    },
+    password:{
+        type: String
+    },
+    date:{
+        type:Date,
+        default:Date.now,
+
+    }
+})
+
+//Creating Endpoint For registering the user
+
+app.post('/signup',async(req,res)=>{
+  let check = await Users.findOne({email:req.body.email})
+  if (check){
+    return res.status(400).json({succes:false,errors:"existing user found with same Email Id"})
+  }
+  let cart = {};
+  for (let i = 0; i < 300; i++) {
+   cart[i]=0;
+    
+  }
+
+  const user = new Users({
+    name:req.body.username,
+    email:req.body.email,
+    password:req.body.pasword,
+    cartData:cart,
+  })
+  await user.save(); 
+
+  const data = {
+    user:{
+        id:user.id
+    }
+  }
+
+  const token = jwt.sign(data,'secret_ecom');
+  res.json({success:true,token})
+})
 app.listen(port,(error)=>{
     if (!error) {
         console.log("Server Running on Port "+port) 

@@ -5,7 +5,7 @@ import cross_icon from '../../assets/cross_icon.png';
 const ListProduct = () => {
   const [allproducts, setAllProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  
+
   const fetchInfo = async () => {
     await fetch('http://localhost:4000/allproducts')
       .then((res) => res.json())
@@ -54,25 +54,36 @@ const ListProduct = () => {
         <p>Old Price</p>
         <p>New Price</p>
         <p>Category</p>
-        <p>Remove</p>
+        <p>Sizes Available</p>
+    
       </div>
 
       <div className="listproduct-allproducts">
         <hr />
         {filteredProducts.map((product, index) => (
           <React.Fragment key={index}>
-            <div className="listproduct-format-main listproduct-format">
+            <div className="listproduct-format">
               <img src={product.image} alt="" className="listproduct-product-icon" />
               <p>{product.name}</p>
               <p>${product.old_price}</p>
               <p>${product.new_price}</p>
               <p>{product.category}</p>
-              <img
-                onClick={() => remove_product(product.id)}
-                className='listproduct-remove-icon'
-                src={cross_icon}
-                alt=""
-              />
+              <div className="listproduct-sizes">
+                <p>{product.sizes ? product.sizes.length : 0} sizes</p>
+                {product.sizes && (
+                  <div className="sizes-tooltip">
+                    {product.sizes.join(', ')}
+                  </div>
+                )}
+              </div>
+              <div className="listproduct-remove-container">
+                <img
+                  onClick={() => remove_product(product.id)}
+                  className='listproduct-remove-icon'
+                  src={cross_icon}
+                  alt=""
+                />
+              </div>
             </div>
             <hr />
           </React.Fragment>

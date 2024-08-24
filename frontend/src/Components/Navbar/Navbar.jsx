@@ -22,7 +22,7 @@ const Navbar = () => {
         <div className='navbar'>
             <div className='nav-logo'>
                 <img src={logo} alt="Logo" />
-                <p>DIVA ATTIRE</p>
+                <p>DIVA'S ATTIRE</p>
             </div>
             <img className='nav-dropdown' onClick={dropdown_toggle} src={nav_dropdown} alt='Dropdown' />
             <ul ref={menuRef} className='nav-menu'>

@@ -54,31 +54,35 @@ const ListProduct = () => {
         <p>Old Price</p>
         <p>New Price</p>
         <p>Available Sizes</p>
+        <p>Remove</p>
       </div>
 
       <div className="listproduct-allproducts">
         {filteredProducts.map((product) => (
-          <div className="listproduct-format" key={product.id}>
-            <img src={product.image} alt="" className="listproduct-product-icon" />
-            <p>{product.name}</p>
-            <p>${product.old_price}</p>
-            <p>${product.new_price}</p>
-            <div className="listproduct-sizes">
-              <p>{product.sizes ? `${product.sizes.length} sizes` : '0 sizes'}</p>
-              {product.sizes && product.sizes.length > 0 && (
-                <div className="sizes-tooltip">
-                  {product.sizes.join(', ')}
-                </div>
-              )}
+          <div key={product.id}>
+            <div className="listproduct-format">
+              <img src={product.image} alt="" className="listproduct-product-icon" />
+              <p>{product.name}</p>
+              <p>${product.old_price}</p>
+              <p>${product.new_price}</p>
+              <div className="listproduct-sizes">
+                <p>{product.sizes ? `${product.sizes.length} sizes` : '0 sizes'}</p>
+                {product.sizes && product.sizes.length > 0 && (
+                  <div className="sizes-tooltip">
+                    {product.sizes.join(', ')}
+                  </div>
+                )}
+              </div>
+              <div className="listproduct-remove-container">
+                <img
+                  onClick={() => remove_product(product.id)}
+                  className='listproduct-remove-icon'
+                  src={cross_icon}
+                  alt=""
+                />
+              </div>
             </div>
-            <div className="listproduct-remove-container">
-              <img
-                onClick={() => remove_product(product.id)}
-                className='listproduct-remove-icon'
-                src={cross_icon}
-                alt=""
-              />
-            </div>
+            <hr className="product-divider" />
           </div>
         ))}
       </div>

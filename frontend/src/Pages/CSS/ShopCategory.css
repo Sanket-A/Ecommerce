@@ -11,7 +11,7 @@
 
 .shopcategory-indexSort {
     display: flex;
-    margin: 0px 170px;
+    margin: 10px 170px;
     justify-content: space-between;
     align-items: center;
 }
